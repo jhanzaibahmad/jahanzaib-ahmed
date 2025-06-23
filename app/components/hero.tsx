@@ -125,7 +125,8 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
 
-      <div className="absolute top-8 right-8 z-20">
+      {/* Theme Toggle Button */}
+      <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-20">
         <Button
           variant="outline"
           size="icon"
@@ -136,39 +137,42 @@ export default function Hero() {
         </Button>
       </div>
 
-      <div className="absolute top-8 left-8 z-20">
+      {/* Resume Button */}
+      <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20">
         <Button
           variant="outline"
-          size="lg"
+          size="sm"
           className={clsx(
-            "backdrop-blur-sm border-white/20",
+            "text-xs sm:text-base backdrop-blur-sm border-white/20",
             isLight
               ? "bg-blue-400 text-white hover:bg-blue-700 hover:text-black"
               : "bg-white/10 text-white hover:bg-white/20"
           )}
           onClick={handleResumeDownload}
         >
-          <Download className="mr-2 h-4 w-4" />
-          Download Resume
+          <Download className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" />
+          Resume
         </Button>
       </div>
 
-      <div className="container mx-auto max-w-4xl text-center relative z-10">
+      <div className="container mx-auto max-w-4xl text-center relative z-10 px-4">
+        {/* Avatar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <div className="relative mx-auto mb-8 h-48 w-48 overflow-hidden rounded-full shadow-2xl ring-4 ring-white/20">
+          <div className="relative mx-auto mb-6 sm:mb-8 h-32 w-32 sm:h-48 sm:w-48 overflow-hidden rounded-full shadow-2xl ring-4 ring-white/20">
             <img src="/images/profile.jpg" alt="Jahan Zaib Ahmed" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
         </motion.div>
 
+        {/* Name */}
         <motion.h1
           className={clsx(
-            "mb-4 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl drop-shadow-lg",
+            "mb-3 text-3xl sm:text-5xl font-bold tracking-tight drop-shadow-lg",
             isLight ? "text-black" : "text-white"
           )}
           initial={{ opacity: 0, y: 20 }}
@@ -178,9 +182,10 @@ export default function Hero() {
           Jahan Zaib Ahmed
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p
           className={clsx(
-            "mb-8 text-xl sm:text-2xl drop-shadow-md",
+            "mb-6 text-lg sm:text-xl drop-shadow-md",
             isLight ? "text-black/80" : "text-white/90"
           )}
           initial={{ opacity: 0, y: 20 }}
@@ -190,8 +195,9 @@ export default function Hero() {
           Software Engineer
         </motion.p>
 
+        {/* Buttons */}
         <motion.div
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-col sm:flex-row justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -218,7 +224,7 @@ export default function Hero() {
               variant="outline"
               size="lg"
               className={clsx(
-                "backdrop-blur-sm border-white/20 shadow-lg",
+                "w-full sm:w-auto justify-center backdrop-blur-sm border-white/20 shadow-lg",
                 isLight
                   ? "bg-blue-400 text-white hover:bg-blue-700 hover:text-black"
                   : "bg-white/10 text-white hover:bg-white/20"
