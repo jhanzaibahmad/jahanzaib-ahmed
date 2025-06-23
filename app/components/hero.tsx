@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Github, Linkedin, Download, Mail, Moon, Sun } from "lucide-react"
 import { useTheme } from "./theme-provider"
 import { useEffect, useRef } from "react"
+import clsx from "clsx"
 
 export default function Hero() {
   const { theme, toggleTheme } = useTheme()
@@ -54,7 +55,6 @@ export default function Hero() {
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
         ctx.fill()
 
-        // Add a subtle glow effect
         ctx.shadowBlur = 10
         ctx.shadowColor = theme === "dark" ? "white" : "#1a1a2e"
         ctx.beginPath()
@@ -64,7 +64,6 @@ export default function Hero() {
       }
     }
 
-    // Create stars
     for (let i = 0; i < starCount; i++) {
       stars.push(new Star())
     }
@@ -73,7 +72,6 @@ export default function Hero() {
       if (!ctx) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Create gradient background
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
       if (theme === "dark") {
         gradient.addColorStop(0, "#0f0f23")
@@ -87,7 +85,6 @@ export default function Hero() {
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Update and draw stars
       for (const star of stars) {
         star.update()
         star.draw()
@@ -103,7 +100,6 @@ export default function Hero() {
       canvasRef.current.width = window.innerWidth
       canvasRef.current.height = window.innerHeight
 
-      // Reposition stars on resize
       stars.forEach((star) => {
         star.x = Math.random() * window.innerWidth
         star.y = Math.random() * window.innerHeight
@@ -122,6 +118,8 @@ export default function Hero() {
     link.click()
     document.body.removeChild(link)
   }
+
+  const isLight = theme === "light"
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
@@ -142,7 +140,12 @@ export default function Hero() {
         <Button
           variant="outline"
           size="lg"
-          className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
+          className={clsx(
+            "backdrop-blur-sm border-white/20",
+            isLight
+              ? "bg-blue-400 text-white hover:bg-blue-700 hover:text-black"
+              : "bg-white/10 text-white hover:bg-white/20"
+          )}
           onClick={handleResumeDownload}
         >
           <Download className="mr-2 h-4 w-4" />
@@ -164,7 +167,10 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1
-          className="mb-4 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl text-white drop-shadow-lg"
+          className={clsx(
+            "mb-4 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl drop-shadow-lg",
+            isLight ? "text-black" : "text-white"
+          )}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -173,7 +179,10 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          className="mb-8 text-xl text-white/90 sm:text-2xl drop-shadow-md"
+          className={clsx(
+            "mb-8 text-xl sm:text-2xl drop-shadow-md",
+            isLight ? "text-black/80" : "text-white/90"
+          )}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -187,34 +196,41 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Button
-            variant="outline"
-            size="lg"
-            className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
-            asChild
-          >
-            <a href="https://github.com/jhanzaibahmad" target="_blank" rel="noopener noreferrer">
-              <Github className="mr-2 h-4 w-4" />
-              GitHub
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
-            asChild
-          >
-            <a href="https://linkedin.com/in/jahanzaib-ahmed-gul-13807a225" target="_blank" rel="noopener noreferrer">
-              <Linkedin className="mr-2 h-4 w-4" />
-              LinkedIn
-            </a>
-          </Button>
-          <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 shadow-lg" asChild>
-            <a href="#contact">
-              <Mail className="mr-2 h-4 w-4" />
-              Contact
-            </a>
-          </Button>
+          {[
+            {
+              href: "https://github.com/jhanzaibahmad",
+              icon: <Github className="mr-2 h-4 w-4" />,
+              label: "GitHub",
+            },
+            {
+              href: "https://linkedin.com/in/jahanzaib-ahmed-gul-13807a225",
+              icon: <Linkedin className="mr-2 h-4 w-4" />,
+              label: "LinkedIn",
+            },
+            {
+              href: "#contact",
+              icon: <Mail className="mr-2 h-4 w-4" />,
+              label: "Contact",
+            },
+          ].map((btn, idx) => (
+            <Button
+              key={idx}
+              variant="outline"
+              size="lg"
+              className={clsx(
+                "backdrop-blur-sm border-white/20 shadow-lg",
+                isLight
+                  ? "bg-blue-400 text-white hover:bg-blue-700 hover:text-black"
+                  : "bg-white/10 text-white hover:bg-white/20"
+              )}
+              asChild
+            >
+              <a href={btn.href} target="_blank" rel="noopener noreferrer">
+                {btn.icon}
+                {btn.label}
+              </a>
+            </Button>
+          ))}
         </motion.div>
       </div>
     </section>
